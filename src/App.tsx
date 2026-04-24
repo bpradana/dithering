@@ -15,7 +15,6 @@ import {
   type PaletteMode,
 } from "@/lib/dither";
 
-const PREVIEW_LIMIT = 900;
 const MAX_EXPORT_DIMENSION = 2200;
 
 const initialOptions: DitherOptions = {
@@ -79,7 +78,11 @@ function App() {
         return;
       }
 
-      const dimensions = fitDimensions(imageElement.naturalWidth, imageElement.naturalHeight, PREVIEW_LIMIT);
+      const dimensions = fitDimensions(
+        imageElement.naturalWidth,
+        imageElement.naturalHeight,
+        MAX_EXPORT_DIMENSION,
+      );
       const workingCanvas = document.createElement("canvas");
       drawPixelated(imageElement, dimensions.width, dimensions.height, workingCanvas, deferredOptions.pixelSize);
       const context = workingCanvas.getContext("2d", { willReadFrequently: true });
@@ -149,6 +152,23 @@ function App() {
   };
 
   const createExportCanvas = () => {
+    const previewCanvas = previewCanvasRef.current;
+    if (previewCanvas && renderState === "ready") {
+      const exportCanvas = document.createElement("canvas");
+      exportCanvas.width = previewCanvas.width;
+      exportCanvas.height = previewCanvas.height;
+      const context = exportCanvas.getContext("2d");
+      const previewContext = previewCanvas.getContext("2d");
+      if (!context) {
+        return null;
+      }
+      if (!previewContext) {
+        return null;
+      }
+      context.putImageData(previewContext.getImageData(0, 0, previewCanvas.width, previewCanvas.height), 0, 0);
+      return exportCanvas;
+    }
+
     if (!imageElement) {
       return null;
     }
@@ -160,13 +180,16 @@ function App() {
       MAX_EXPORT_DIMENSION,
     );
 
-    drawPixelated(imageElement, dimensions.width, dimensions.height, exportCanvas, options.pixelSize);
+    drawPixelated(imageElement, dimensions.width, dimensions.height, exportCanvas, deferredOptions.pixelSize);
     const context = exportCanvas.getContext("2d", { willReadFrequently: true });
     if (!context) {
       return null;
     }
 
-    const processed = applyDither(context.getImageData(0, 0, exportCanvas.width, exportCanvas.height), options);
+    const processed = applyDither(
+      context.getImageData(0, 0, exportCanvas.width, exportCanvas.height),
+      deferredOptions,
+    );
     context.putImageData(processed, 0, 0);
     return exportCanvas;
   };
