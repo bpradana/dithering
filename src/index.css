@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    color: hsl(15 24% 15%);
+    background:
+      radial-gradient(circle at top, rgba(245, 183, 124, 0.25), transparent 34%),
+      linear-gradient(180deg, #f8f2eb 0%, #f6efe6 42%, #efe6d8 100%);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground;
+    margin: 0;
+    background-image:
+      radial-gradient(circle at top, rgba(245, 183, 124, 0.25), transparent 34%),
+      linear-gradient(180deg, #f8f2eb 0%, #f6efe6 42%, #efe6d8 100%),
+      radial-gradient(circle at 1px 1px, rgba(101, 67, 33, 0.05) 1px, transparent 0);
+    background-size: auto, auto, 16px 16px;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+}
+
+@layer utilities {
+  .panel-glow {
+    box-shadow:
+      0 24px 80px rgba(145, 106, 60, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+}
+
+@media print {
+  :root,
+  body {
+    background: white !important;
+    color: black;
+  }
+
+  body {
+    min-height: auto;
+    background-image: none !important;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-shell {
+    max-width: none !important;
+    min-height: auto !important;
+    padding: 0 !important;
+  }
+
+  .print-panel,
+  .print-stage,
+  .print-preview-shell {
+    border: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .print-panel {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .print-grid {
+    display: block !important;
+  }
+
+  .print-stage canvas {
+    display: none !important;
+  }
+
+  .print-image {
+    max-width: 100% !important;
+    max-height: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    image-rendering: pixelated;
+  }
+
+  @page {
+    margin: 12mm;
+  }
+}
