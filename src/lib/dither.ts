@@ -1,5 +1,5 @@
 export type DitherAlgorithm = "floyd-steinberg" | "atkinson" | "ordered" | "threshold";
-export type PaletteMode = "mono" | "duo" | "retro" | "forest";
+export type PaletteMode = "bw" | "mono" | "duo" | "retro" | "forest";
 export type OrderedMatrixSize = 2 | 4 | 8;
 
 export type DitherOptions = {
@@ -16,6 +16,10 @@ export type DitherOptions = {
 type Rgb = [number, number, number];
 
 const palettes: Record<PaletteMode, Rgb[]> = {
+  bw: [
+    [0, 0, 0],
+    [255, 255, 255],
+  ],
   mono: [
     [24, 24, 24],
     [245, 239, 232],
@@ -245,6 +249,7 @@ export function drawPixelated(
 
 export function getPaletteLabel(mode: PaletteMode) {
   return {
+    bw: "Black & white",
     mono: "Mono paper",
     duo: "Ink blue",
     retro: "Warm retro",

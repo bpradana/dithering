@@ -26,7 +26,7 @@ const initialOptions: DitherOptions = {
   pixelSize: 2,
   matrixSize: 4,
   invert: false,
-  paletteMode: "mono",
+  paletteMode: "bw",
 };
 
 type RenderState = "idle" | "processing" | "ready";
@@ -217,7 +217,7 @@ function App() {
     }, "image/png");
   };
 
-  const paletteModes: PaletteMode[] = ["mono", "duo", "retro", "forest"];
+  const paletteModes: PaletteMode[] = ["bw", "mono", "duo", "retro", "forest"];
   const matrixSizes: OrderedMatrixSize[] = [2, 4, 8];
   const algorithms: Array<{ value: DitherAlgorithm; label: string }> = [
     { value: "floyd-steinberg", label: "Floyd-Steinberg" },
